@@ -1,9 +1,24 @@
 #include <Arduino.h>
+#include "LibRobus.h"
+#include "Distance.h"
+
+
+unsigned long previousMillis = 0;
+
 
 void setup() {
-  // put your setup code here, to run once:
+  BoardInit();
+  Serial.begin(9600);
+  AddRotation(45, ROTATE_LEFT);
+  AddLength(30);
+  AddRotation(180, ROTATE_RIGHT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  unsigned long currentMillis = millis();
+
+  if(currentMillis - previousMillis > MOVE_SAMPLE_DELAY) {
+    previousMillis = currentMillis;
+    UpdateMotors();
+  }
 }
