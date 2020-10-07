@@ -10,28 +10,31 @@ unsigned long previousMillis = 0;
 void setup() {
   BoardInit();
   Serial.begin(9600);
+  AddLength(115);
+  AddRotation(90, ROTATE_LEFT);
+  AddLength(90);
+  AddRotation(95, ROTATE_RIGHT);
+  AddLength(90);
+  AddRotation(43, ROTATE_RIGHT);
+  AddLength(180);
+  AddRotation(87, ROTATE_LEFT);
+  AddLength(65);
+  AddRotation(32, ROTATE_RIGHT);
+  AddLength(110);
+  AddRotation(205, ROTATE_RIGHT);
 
-  /*MOTOR_SetSpeed(0, 0.2);
-  MOTOR_SetSpeed(1, 0.2);
-  delay(1605);
-  MOTOR_SetSpeed(0, 0);
-  MOTOR_SetSpeed(1, 0);
-  int pulse0 = ENCODER_Read(0);
-  int pulse1 = ENCODER_Read(1);
+  AddLength(110);
+  AddRotation(32, ROTATE_LEFT);
+  AddLength(65);
+  AddRotation(90, ROTATE_RIGHT);
+  AddLength(185);
+  AddRotation(43, ROTATE_LEFT);
+  AddLength(85);
+  AddRotation(90, ROTATE_LEFT);
+  AddLength(80);
+  AddRotation(90, ROTATE_RIGHT);
+  AddLength(115);
 
-  Serial.print("NOMBRE DE PULSE (0): ");
-  Serial.println(pulse0);
-  Serial.print("NOMBRE DE PULSE (1): ");
-  Serial.println(pulse1);
-  while(1);*/
-
-  AddLength(30);
-  AddRotation(90, ROTATE_RIGHT);
-  AddLength(30);
-  AddRotation(90, ROTATE_RIGHT);
-  AddLength(30);
-  AddRotation(90, ROTATE_RIGHT);
-  AddLength(50);
 }
  
 void loop() {
@@ -41,11 +44,6 @@ void loop() {
     previousMillis = currentMillis;
     UpdateMotors();
   }
-
-  // ControlGripper(OPENED);
-  // delay(2000);
-  // ControlGripper(CLOSED);
-  // delay(2000);
 }
 
 void ControlGripper(int state)
