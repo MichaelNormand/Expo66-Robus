@@ -22,4 +22,7 @@
 #define LENGTH 0
 #define ROTATION 1
 
+#define OPENED 1
+#define CLOSED 0
+
 #endif
