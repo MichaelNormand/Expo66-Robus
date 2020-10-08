@@ -2,6 +2,7 @@
 #include "LibRobus.h"
 #include "Distance.h"
 
+void ControlGripper(int state);
 
 unsigned long previousMillis = 0;
 
@@ -19,4 +20,17 @@ void loop() {
     previousMillis = currentMillis;
     UpdateMotors();
   }
+
+  // ControlGripper(OPENED);
+  // delay(2000);
+  // ControlGripper(CLOSED);
+  // delay(2000);
+}
+
+void ControlGripper(int state)
+{ 
+  if(state == OPENED)
+    SERVO_SetAngle(1, 120);  
+  else
+    SERVO_SetAngle(1, 0);  
 }
