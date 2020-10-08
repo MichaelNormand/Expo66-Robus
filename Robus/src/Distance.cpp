@@ -24,12 +24,25 @@ void AddPulse(int pulse){
 }
 
 void UpdateMotors(void) {
-  static int index = 0;
   static int started = 0;
+  static int ended = 0;
+  static int index = 0;
+  static int waitTime = 0;
   static int dirMotor0;
   static int dirMotor1;
 
   if(index >= movCount){
+    return;
+  }
+
+  if(ended){
+    waitTime++;    
+
+    if(waitTime >= MOVE_WAIT_DELAY){
+      ended = 0;
+      waitTime = 0;
+    }
+
     return;
   }
 
@@ -65,6 +78,7 @@ void UpdateMotors(void) {
 
   if(DistanceToGoal(movSeq[0][index], dirMotor0, dirMotor1) == DONE){
     started = 0;
+    ended = 1;
     index++;
   }
 }
