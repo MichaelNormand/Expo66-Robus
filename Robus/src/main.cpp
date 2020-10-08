@@ -10,7 +10,28 @@ unsigned long previousMillis = 0;
 void setup() {
   BoardInit();
   Serial.begin(9600);
-  AddPulse(3200);
+
+  /*MOTOR_SetSpeed(0, 0.2);
+  MOTOR_SetSpeed(1, 0.2);
+  delay(1605);
+  MOTOR_SetSpeed(0, 0);
+  MOTOR_SetSpeed(1, 0);
+  int pulse0 = ENCODER_Read(0);
+  int pulse1 = ENCODER_Read(1);
+
+  Serial.print("NOMBRE DE PULSE (0): ");
+  Serial.println(pulse0);
+  Serial.print("NOMBRE DE PULSE (1): ");
+  Serial.println(pulse1);
+  while(1);*/
+
+  AddLength(30);
+  AddRotation(90, ROTATE_RIGHT);
+  AddLength(30);
+  AddRotation(90, ROTATE_RIGHT);
+  AddLength(30);
+  AddRotation(90, ROTATE_RIGHT);
+  AddLength(50);
 }
  
 void loop() {

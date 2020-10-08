@@ -19,6 +19,7 @@
 #define ROTATE_LEFT 1
 #define ROTATE_RIGHT -1
 #define MOVE_SAMPLE_DELAY 10
+#define MOVE_WAIT_DELAY 50      //1 = 10ms
 #define LENGTH 0
 #define ROTATION 1
 
