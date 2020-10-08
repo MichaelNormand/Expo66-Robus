@@ -87,9 +87,6 @@ bool DistanceToGoal(int32_t goal, int dir0, int dir1)
 {
   static float dataPID[4] = {0, 0, 0, 0};                     // {cumError0, lastError0, cumError1, lastError1} -> for Integral and Derivative
 
-  static int32_t now;
-  static int32_t before = 0;
-
   static float speed0 = SPEED0;
   static float speed1 = SPEED1;
   
@@ -102,23 +99,17 @@ bool DistanceToGoal(int32_t goal, int dir0, int dir1)
     MOTOR_SetSpeed(0, dir0 * speed0);
     MOTOR_SetSpeed(1, dir1 * speed1);
 
-    now = millis();                        
+    encoder0 = ENCODER_Read(0) * dir0;
+    encoder1 = ENCODER_Read(1) * dir1;
 
-    if(now - before >= STEP)                                  // True every STEP (10ms).
-    {
-      before = now;
+    speed0 = PID(encoder0, speed0, dir0, MOTOR0, dataPID);  // Adjusted Speed.
+    speed1 = PID(encoder1, speed1, dir1, MOTOR1, dataPID);  
 
-      encoder0 = ENCODER_Read(0) * dir0;
-      encoder1 = ENCODER_Read(1) * dir1;
+    distance += (encoder0 + encoder1)/2;                    // Keep track of distance (average distance traveled of both wheel)
 
-      speed0 = PID(encoder0, speed0, dir0, MOTOR0, dataPID);  // Adjusted Speed.
-      speed1 = PID(encoder1, speed1, dir1, MOTOR1, dataPID);  
-
-      distance += (encoder0 + encoder1)/2;                    // Keep track of distance (average distance traveled of both wheel)
-
-      ENCODER_Reset(0);
-      ENCODER_Reset(1);
-    }
+    ENCODER_Reset(0);
+    ENCODER_Reset(1);
+    
     return NOT_DONE;
   }
 

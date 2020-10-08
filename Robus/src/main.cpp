@@ -37,7 +37,7 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
 
-  if(currentMillis - previousMillis > MOVE_SAMPLE_DELAY) {
+  if(currentMillis - previousMillis > STEP) {
     previousMillis = currentMillis;
     UpdateMotors();
   }

@@ -3,23 +3,23 @@
 
 #define MOTOR0 0
 #define MOTOR1 1
-#define STEP  20    // Resolution for ENCODER_Read().
-#define RPS   100   // RPS = Rotation per step -> just like RPM but with a different time base.
+#define STEP  40    // Resolution for ENCODER_Read().
+#define RPS   500   // RPS = Rotation per step -> just like RPM but with a different time base.
 
 #define KP 0.001    // Constants need tuning.
 #define KI 0.007
 #define KD 0.004
 
-#define SPEED0 0.3
-#define SPEED1 0.3
+#define SPEED0 0.1
+#define SPEED1 0.1
 
 #define NOT_DONE 0
 #define DONE 1
 
 #define ROTATE_LEFT 1
 #define ROTATE_RIGHT -1
-#define MOVE_SAMPLE_DELAY 10
-#define MOVE_WAIT_DELAY 50      //1 = 10ms
+//#define MOVE_SAMPLE_DELAY 10
+#define MOVE_WAIT_DELAY 15      //1 = STEP
 #define LENGTH 0
 #define ROTATION 1
 
