@@ -17,6 +17,12 @@ void AddRotation(int angle, int direction){
   movCount++;
 }
 
+void AddPulse(int pulse){
+  movSeq[0][movCount] = pulse;
+  movSeq[1][movCount] = LENGTH;
+  movCount++;
+}
+
 void UpdateMotors(void) {
   static int index = 0;
   static int started = 0;
