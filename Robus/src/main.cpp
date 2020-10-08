@@ -9,9 +9,14 @@ unsigned long previousMillis = 0;
 void setup() {
   BoardInit();
   Serial.begin(9600);
-  AddRotation(45, ROTATE_LEFT);
-  AddLength(30);
-  AddRotation(180, ROTATE_RIGHT);
+  AddLength(50);
+  AddRotation(90, ROTATE_LEFT);
+  AddLength(50);
+  AddRotation(90, ROTATE_LEFT);
+  AddLength(50);
+  AddRotation(90, ROTATE_LEFT);
+  AddLength(50);
+  AddRotation(90, ROTATE_LEFT);
 }
  
 void loop() {
