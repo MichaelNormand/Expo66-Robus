@@ -3,7 +3,7 @@
 
 #define MOTOR0 0
 #define MOTOR1 1
-#define STEP 40 // Resolution for ENCODER_Read().
+#define STEP 10 // Resolution for ENCODER_Read().
 #define RPS 200 // RPS = Rotation per step -> just like RPM but with a different time base.
 
 #define KP 0.0003 // Constants need tuning.

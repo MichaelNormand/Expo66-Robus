@@ -10,9 +10,10 @@ void setup()
 {
   BoardInit();
   Serial.begin(9600);
+
   AddLength(115);
-  AddRotation(90, ROTATE_LEFT);
-  AddLength(90);
+  //AddRotation(90, ROTATE_LEFT);
+  /*AddLength(90);
   AddRotation(95, ROTATE_RIGHT);
   AddLength(90);
   AddRotation(43, ROTATE_RIGHT);
@@ -33,7 +34,7 @@ void setup()
   AddRotation(90, ROTATE_LEFT);
   AddLength(80);
   AddRotation(90, ROTATE_RIGHT);
-  AddLength(115);
+  AddLength(115); */
 }
 
 void loop()

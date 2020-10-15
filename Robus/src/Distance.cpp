@@ -1,4 +1,5 @@
 #include <Distance.h>
+#include <PID.h>
 
 int movSeq[2][256];
 int movCount = 0;
@@ -85,18 +86,20 @@ void UpdateMotors(void)
 		if (movSeq[0][index] < 0)
 			movSeq[0][index] *= -1;
 
+		SetDistanceToGoal((float)movSeq[0][index], dirMotor0, dirMotor1);
 		return;
 	}
 
-	if (DistanceToGoal(movSeq[0][index], dirMotor0, dirMotor1) == DONE)
+	if (AdjustOneCycle() == DONE)
 	{
+		Serial.print("\n\nDONE !!!");
 		started = 0;
 		ended = 1;
 		index++;
 	}
 }
 
-bool DistanceToGoal(int32_t goal, int dir0, int dir1)
+/*bool DistanceToGoal(int32_t goal, int dir0, int dir1)
 {
 	static float dataPID[4] = {0, 0, 0, 0}; // {cumError0, lastError0, cumError1, lastError1} -> for Integral and Derivative
 
@@ -189,4 +192,4 @@ float PID(int32_t encoder, float speed, int dir, bool motor, float *dataPID)
 		speed = 1;
 
 	return speed; // Return new speed.
-}
+}*/
