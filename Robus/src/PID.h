@@ -21,6 +21,15 @@ int32_t error = 0;
 int32_t lastErrors[2] = {goal, goal};
 int32_t lastError = 0;
 int32_t nextError = 0;
+int leftDirection = 1;
+int rightDirection = 1;
+float rightMotorTravel = 0.0;
+float leftMotorTravel = 0.0;
+float rightTraveledDistance = 0.0;
+float leftTraveledDistance = 0.0;
+int speedIncrease = 1;
+float turningPoint = 0.0;
 
-void PID(int motorToCheck, float &encoder);
-void AdjustOneCycle();
+void PID(int motorToCheck, float &encoder, int direction);
+bool AdjustOneCycle();
+void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMotorDirection);
