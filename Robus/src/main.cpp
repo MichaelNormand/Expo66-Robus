@@ -6,8 +6,8 @@ void ControlGripper(int state);
 
 unsigned long previousMillis = 0;
 
-
-void setup() {
+void setup()
+{
   BoardInit();
   Serial.begin(9600);
   AddLength(115);
@@ -34,22 +34,23 @@ void setup() {
   AddLength(80);
   AddRotation(90, ROTATE_RIGHT);
   AddLength(115);
-
 }
- 
-void loop() {
+
+void loop()
+{
   unsigned long currentMillis = millis();
 
-  if(currentMillis - previousMillis > STEP) {
+  if (currentMillis - previousMillis > STEP)
+  {
     previousMillis = currentMillis;
     UpdateMotors();
   }
 }
 
 void ControlGripper(int state)
-{ 
-  if(state == OPENED)
-    SERVO_SetAngle(1, 120);  
+{
+  if (state == OPENED)
+    SERVO_SetAngle(1, 120);
   else
-    SERVO_SetAngle(1, 0);  
+    SERVO_SetAngle(1, 0);
 }
