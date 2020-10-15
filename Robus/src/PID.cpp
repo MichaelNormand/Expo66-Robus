@@ -121,7 +121,11 @@ bool AdjustOneCycle()
   {
     actualSpeed += 10 * speedIncrease;
   }
+<<<<<<< HEAD
   if (actualSpeed < goal - 5 && (rightTraveledDistance >= rightMotorTravel / 2 || leftTraveledDistance >= leftMotorTravel / 2)) {
+=======
+  if ((actualSpeed < (goal - 5)) && (rightTraveledDistance >= (rightMotorTravel / 2)) || (leftTraveledDistance >= (leftMotorTravel / 2))) {
+>>>>>>> d4a3c9cd693a3946bd56c62de1075916770b85d7
     speedIncrease = -1;
   }
   else if (actualSpeed >= goal - 5) {
@@ -131,10 +135,23 @@ bool AdjustOneCycle()
       turningPoint = rightMotorTravel - leftTraveledDistance;
     }
   }
+<<<<<<< HEAD
   return (leftTraveledDistance >= leftMotorTravel && rightTraveledDistance >= rightMotorTravel);
+=======
+  return ((leftTraveledDistance >= leftMotorTravel) && (rightTraveledDistance >= rightMotorTravel));
+>>>>>>> d4a3c9cd693a3946bd56c62de1075916770b85d7
 }
 
 void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMotorDirection) {
+
+  Serial.print("requiredPulses = ");
+  Serial.println(requiredPulses);
+  Serial.print("leftMotorDirection = ");
+  Serial.println(leftMotorDirection);
+  Serial.print("rightMotorDirection = ");
+  Serial.println(rightMotorDirection);
+  Serial.println();
+
   leftDirection = leftMotorDirection;
   rightDirection = rightMotorDirection;
   rightMotorTravel = requiredPulses * rightMotorDirection;
