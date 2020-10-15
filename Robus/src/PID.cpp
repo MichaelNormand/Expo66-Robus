@@ -85,8 +85,18 @@ bool AdjustOneCycle()
   }
   //Serial.println("Motor 0: " + String(encoderLeft) + ". PID: " + pids[0]);
   //Serial.println("Motor 1: " + String(encoderRight) + ". PID: " + pids[1]);
-  MOTOR_SetSpeed(0, pids[0]);
-  MOTOR_SetSpeed(1, pids[1]);
+  leftTraveledDistance += encoderLeft;
+  rightTraveledDistance += encoderRight;
+  if (leftMotorTravel > leftTraveledDistance) {
+    MOTOR_SetSpeed(0, pids[0]);
+  } else {
+    MOTOR_SetSpeed(0, 0);
+  }
+  if (leftMotorTravel > leftTraveledDistance) {
+    MOTOR_SetSpeed(1, pids[1]);
+  } else {
+    MOTOR_SetSpeed(1, 0);
+  }
   ++cycle;
   if (actualSpeed != goal)
   {
