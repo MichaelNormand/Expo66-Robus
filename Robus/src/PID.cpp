@@ -84,7 +84,7 @@ bool AdjustOneCycle()
     overflowLeft = encoderLeft - encoderRight;
     overflowRight = 0.0;
   }
-  else if (encoderRight * -1 > encoderLeft && leftDirection < rightDirection)
+  else if (encoderRight > encoderLeft * -1 && leftDirection < rightDirection)
   {
     overflowRight = encoderRight - encoderLeft;
     overflowLeft = 0.0;
@@ -94,7 +94,7 @@ bool AdjustOneCycle()
     overflowLeft = encoderLeft - encoderRight;
     overflowRight = 0.0;
   }
-  else if (encoderRight > encoderLeft * -1 && leftDirection > rightDirection)
+  else if (encoderRight * -1 > encoderLeft && leftDirection > rightDirection)
   {
     overflowRight = encoderRight - encoderLeft;
     overflowLeft = 0.0;
@@ -121,7 +121,7 @@ bool AdjustOneCycle()
   {
     actualSpeed += 10 * speedIncrease;
   }
-  if (actualSpeed < goal - 5 && rightTraveledDistance >= rightMotorTravel / 2 || leftTraveledDistance >= leftMotorTravel / 2) {
+  if (actualSpeed < goal - 5 && (rightTraveledDistance >= rightMotorTravel / 2 || leftTraveledDistance >= leftMotorTravel / 2)) {
     speedIncrease = -1;
   }
   else if (actualSpeed >= goal - 5) {
@@ -131,7 +131,7 @@ bool AdjustOneCycle()
       turningPoint = rightMotorTravel - leftTraveledDistance;
     }
   }
-  return (leftTraveledDistance <= leftMotorTravel && rightTraveledDistance <= rightMotorTravel);
+  return (leftTraveledDistance >= leftMotorTravel && rightTraveledDistance >= rightMotorTravel);
 }
 
 void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMotorDirection) {
@@ -144,4 +144,8 @@ void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMo
   actualSpeed = 10;
   lastErrors[0] = goal;
   lastErrors[1] = goal;
+  pids[0] = 0;
+  pids[1] = 0;
+  cycle = 1;
+  speedIncrease = 1;
 }
