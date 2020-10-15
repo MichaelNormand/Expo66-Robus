@@ -1,4 +1,5 @@
 #include <Distance.h>
+#include <PID.h>
 
 int movSeq[2][256];
 int movCount = 0;
@@ -85,14 +86,32 @@ void UpdateMotors(void)
 		if (movSeq[0][index] < 0)
 			movSeq[0][index] *= -1;
 
+
+		if(dirMotor0 == dirMotor1)
+		{
+			SetDistanceToGoal((float)movSeq[0][index], 1, 1);
+		}
+
 		return;
 	}
 
-	if (DistanceToGoal(movSeq[0][index], dirMotor0, dirMotor1) == DONE)
+	if(dirMotor0 != dirMotor1)
 	{
-		started = 0;
-		ended = 1;
-		index++;
+		if (DistanceToGoal(movSeq[0][index], dirMotor0, dirMotor1) == DONE)
+		{
+			started = 0;
+			ended = 1;
+			index++;
+		}
+	}
+	else
+	{
+		if(AdjustOneCycle() == DONE)
+		{
+			started = 0;
+			ended = 1;
+			index++;
+		}
 	}
 }
 
