@@ -11,7 +11,7 @@ float encoderLeft = 0.0;
 float encoderRight = 0.0;
 int32_t encoderRead = 0;
 int32_t cycle = 1;
-int32_t goal = 400;
+int32_t goal = 200;
 int32_t actualSpeed = 10;
 int32_t error = 0;
 int32_t lastErrors[2] = {goal, goal};
@@ -26,8 +26,9 @@ float leftTraveledDistance = 0.0;
 int speedIncrease = 1;
 float turningPoint = 0.0;
 
-void PID(int motorToCheck, float &encoder, int direction)
+void PID(int motorToCheck, float &encoder)
 {
+  int direction = 1;
   encoderRead = ENCODER_ReadReset(motorToCheck);
   error = encoderRead - (actualSpeed * direction);
   if (motorToCheck == 0 && overflowLeft > 0)
@@ -65,38 +66,16 @@ void PID(int motorToCheck, float &encoder, int direction)
 
 bool AdjustOneCycle()
 {
-  PID(0, encoderLeft, leftDirection);
-  PID(1, encoderRight, rightDirection);
-  leftTraveledDistance += encoderLeft;
-  rightTraveledDistance += encoderRight;
-  if (encoderLeft > encoderRight && leftDirection == rightDirection)
+  PID(0, encoderLeft);
+  PID(1, encoderRight);
+  if (encoderLeft > encoderRight)
   {
     overflowLeft = encoderLeft - encoderRight;
     overflowRight = 0.0;
   }
-  else if (encoderRight > encoderLeft && leftDirection == rightDirection)
+  else if (encoderRight > encoderLeft)
   {
     overflowRight = encoderRight - encoderLeft;
-    overflowLeft = 0.0;
-  }
-  else if (encoderLeft * -1 > encoderRight && leftDirection < rightDirection)
-  {
-    overflowLeft = (encoderLeft * -1) - encoderRight;
-    overflowRight = 0.0;
-  }
-  else if (encoderRight > encoderLeft * -1 && leftDirection < rightDirection)
-  {
-    overflowRight = encoderRight - (encoderLeft * -1);
-    overflowLeft = 0.0;
-  }
-  else if (encoderLeft > encoderRight * -1 && leftDirection > rightDirection)
-  {
-    overflowLeft = encoderLeft - (encoderRight * -1);
-    overflowRight = 0.0;
-  }
-  else if (encoderRight * -1 > encoderLeft && leftDirection > rightDirection)
-  {
-    overflowRight = (encoderRight * -1) - encoderLeft;
     overflowLeft = 0.0;
   }
   else
@@ -106,30 +85,12 @@ bool AdjustOneCycle()
   }
   //Serial.println("Motor 0: " + String(encoderLeft) + ". PID: " + pids[0]);
   //Serial.println("Motor 1: " + String(encoderRight) + ". PID: " + pids[1]);
-  if (leftTraveledDistance <= leftMotorTravel) {
-    MOTOR_SetSpeed(0, pids[0]);
-  } else {
-    MOTOR_SetSpeed(0, 0);
-  }
-  if (rightTraveledDistance <= rightMotorTravel) {
-    MOTOR_SetSpeed(1, pids[1]);
-  } else {
-    MOTOR_SetSpeed(1, 0);
-  }
+  MOTOR_SetSpeed(0, pids[0]);
+  MOTOR_SetSpeed(1, pids[1]);
   ++cycle;
-  if (actualSpeed != goal && actualSpeed > 0 && leftTraveledDistance < leftMotorTravel && rightTraveledDistance < rightMotorTravel)
+  if (actualSpeed != goal)
   {
-    actualSpeed += 10 * speedIncrease;
-  }
-  if (actualSpeed < goal - 5 && (rightTraveledDistance >= rightMotorTravel / 2 || leftTraveledDistance >= leftMotorTravel / 2)) {
-    speedIncrease = -1;
-  }
-  else if (actualSpeed >= goal - 5) {
-    if (rightTraveledDistance >= leftTraveledDistance) {
-      turningPoint = rightMotorTravel - rightTraveledDistance;
-    } else if (rightTraveledDistance <= leftTraveledDistance) {
-      turningPoint = rightMotorTravel - leftTraveledDistance;
-    }
+    actualSpeed += 10;
   }
   return (leftTraveledDistance >= leftMotorTravel && rightTraveledDistance >= rightMotorTravel);
 }

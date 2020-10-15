@@ -12,7 +12,7 @@ void setup()
   Serial.begin(9600);
 
   AddLength(115);
-  //AddRotation(90, ROTATE_LEFT);
+  AddRotation(90, ROTATE_LEFT);
   /*AddLength(90);
   AddRotation(95, ROTATE_RIGHT);
   AddLength(90);
