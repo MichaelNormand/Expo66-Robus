@@ -81,22 +81,22 @@ bool AdjustOneCycle()
   }
   else if (encoderLeft * -1 > encoderRight && leftDirection < rightDirection)
   {
-    overflowLeft = encoderLeft - encoderRight;
+    overflowLeft = (encoderLeft * -1) - encoderRight;
     overflowRight = 0.0;
   }
   else if (encoderRight > encoderLeft * -1 && leftDirection < rightDirection)
   {
-    overflowRight = encoderRight - encoderLeft;
+    overflowRight = encoderRight - (encoderLeft * -1);
     overflowLeft = 0.0;
   }
   else if (encoderLeft > encoderRight * -1 && leftDirection > rightDirection)
   {
-    overflowLeft = encoderLeft - encoderRight;
+    overflowLeft = encoderLeft - (encoderRight * -1);
     overflowRight = 0.0;
   }
   else if (encoderRight * -1 > encoderLeft && leftDirection > rightDirection)
   {
-    overflowRight = encoderRight - encoderLeft;
+    overflowRight = (encoderRight * -1) - encoderLeft;
     overflowLeft = 0.0;
   }
   else
@@ -121,11 +121,7 @@ bool AdjustOneCycle()
   {
     actualSpeed += 10 * speedIncrease;
   }
-<<<<<<< HEAD
   if (actualSpeed < goal - 5 && (rightTraveledDistance >= rightMotorTravel / 2 || leftTraveledDistance >= leftMotorTravel / 2)) {
-=======
-  if ((actualSpeed < (goal - 5)) && (rightTraveledDistance >= (rightMotorTravel / 2)) || (leftTraveledDistance >= (leftMotorTravel / 2))) {
->>>>>>> d4a3c9cd693a3946bd56c62de1075916770b85d7
     speedIncrease = -1;
   }
   else if (actualSpeed >= goal - 5) {
@@ -135,11 +131,7 @@ bool AdjustOneCycle()
       turningPoint = rightMotorTravel - leftTraveledDistance;
     }
   }
-<<<<<<< HEAD
   return (leftTraveledDistance >= leftMotorTravel && rightTraveledDistance >= rightMotorTravel);
-=======
-  return ((leftTraveledDistance >= leftMotorTravel) && (rightTraveledDistance >= rightMotorTravel));
->>>>>>> d4a3c9cd693a3946bd56c62de1075916770b85d7
 }
 
 void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMotorDirection) {
