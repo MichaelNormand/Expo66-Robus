@@ -6,33 +6,35 @@
 void ControlGripper(int state);
 
 unsigned long previousMillis = 0;
-unsigned long previousMillis_audio = 0;
+unsigned long AUDIO_previousMillis = 0;
 
 void setup()
 {
-  BoardInit();
+  //BoardInit();
   Serial.begin(9600);
+  AUDIO_Setup();
 
-  while(1){
-    Serial.print("hi ?");
-    delay(100);
-  }
+  /*while(1){
+    Serial.println("ssyt");
+    delay(200);
+  }*/
 }
 
 void loop()
 {
   unsigned long currentMillis = millis();
-  unsigned long currentMillis_audio = millis();
+  unsigned long AUDIO_currentMillis = millis();
 
   if (currentMillis - previousMillis > STEP)
   {
     previousMillis = currentMillis;
     UpdateMotors();
   }
-  if (currentMillis_audio - previousMillis_audio > SAMPLE_AUDIO)
+  if (AUDIO_currentMillis - AUDIO_previousMillis > AUDIO_SAMPLE)
   {
-    previousMillis_audio = currentMillis_audio;
-    UpdateAudio();
+    AUDIO_previousMillis = AUDIO_currentMillis;
+    AUDIO_Update();
+    Serial.println(AUDIO_Status(false));
   }
 }
 
