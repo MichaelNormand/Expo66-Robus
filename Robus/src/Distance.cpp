@@ -25,7 +25,7 @@ void AddPulse(int pulse)
 	movCount++;
 }
 
-void UpdateMotors(void)
+void MOTOR_Update(void)
 {
 	static int started = 0;
 	static int ended = 0;
@@ -208,4 +208,19 @@ float PID(int32_t encoder, float speed, int dir, bool motor, float *dataPID)
 		speed = 1;
 
 	return speed; // Return new speed.
+}
+
+uint16_t MOTOR_Abort(void){
+	uint16_t distance = MOTOR_Traveled();
+
+	MOTOR_SetSpeed(0, 0);
+	MOTOR_SetSpeed(1, 0);
+
+	for(uint16_t i = 0; i < movCount; i++){
+		movSeq[0][i] = 0;
+		movSeq[1][i] = 0;
+	}
+	movCount = 0;
+
+	return distance;
 }
