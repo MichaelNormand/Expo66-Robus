@@ -130,6 +130,6 @@ void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMo
   speedIncrease = 1;
 }
 
-uint16_t MOTOR_Traveled(void){
+uint16_t PID_Traveled(void){
 	return (uint16_t)((leftTraveledDistance + rightTraveledDistance) / 267.34);
 }

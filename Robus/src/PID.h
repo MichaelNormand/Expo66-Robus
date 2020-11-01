@@ -10,6 +10,6 @@
 void PID(int motorToCheck, float &encoder, int direction);
 bool AdjustOneCycle();
 void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMotorDirection);
-uint16_t MOTOR_Traveled(void);
+uint16_t PID_Traveled(void);
 
 #endif

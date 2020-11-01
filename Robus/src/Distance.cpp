@@ -1,7 +1,7 @@
 #include <Distance.h>
 #include <PID.h>
 
-uint32_t movSeq[2][256];
+int32_t movSeq[2][256];
 int movCount = 0;
 
 void AddLength(int length)
@@ -97,7 +97,7 @@ void MOTOR_Update(bool abort)
 
 		if(dirMotor0 == dirMotor1)
 		{
-			SetDistanceToGoal((float)movSeq[0][index], 1, 1);
+			SetDistanceToGoal((float)movSeq[0][index], 1, 1); 	//CHANGE THIS
 		}
 
 		return;
@@ -218,17 +218,24 @@ float PID(int32_t encoder, float speed, int dir, bool motor, float *dataPID)
 	return speed; // Return new speed.
 }
 
+uint16_t MOTOR_Traveled(void){
+	return PID_Traveled();
+}
+
 uint16_t MOTOR_Abort(void){
 	uint16_t distance = MOTOR_Traveled();
 
-	MOTOR_SetSpeed(0, 0);
+	MOTOR_Update(true);
+
+
+	/*MOTOR_SetSpeed(0, 0);
 	MOTOR_SetSpeed(1, 0);
 
 	for(uint16_t i = 0; i < movCount; i++){
 		movSeq[0][i] = 0;
 		movSeq[1][i] = 0;
 	}
-	movCount = 0;
+	movCount = 0;*/
 
 	return distance;
 }

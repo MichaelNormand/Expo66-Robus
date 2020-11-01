@@ -26,8 +26,22 @@ float SONAR_Update(void)
     if (triggered == false && distance < 70)
     {
         triggered = true;
-        distance_reel = SONAR_Calcul(distance);
-        AddLength((int)(distance/2));
+        //distance_reel = SONAR_Calcul(distance);
+
+        if(MOTOR_Traveled() > 200 && MOTOR_Traveled() < 300){
+            AddLength(-30);
+            AddRotation(90, ROTATE_LEFT);
+            AddLength(70);
+            AddRotation(90, ROTATE_RIGHT);
+            AddLength(30);
+        } 
+        else{
+            AddLength((int)(distance/4));
+            AddRotation(90, ROTATE_LEFT);
+            AddLength(70);
+            AddRotation(90, ROTATE_RIGHT);
+        }
+        
         SONAR_Status(true);
         return distance_reel;
     }
@@ -37,11 +51,11 @@ float SONAR_Update(void)
     Serial.println(" cm");
 }
 
-float SONAR_Calcul(float distance)
+/*float SONAR_Calcul(float distance)
 {
     float adjacent = cos(10)*distance;
     return adjacent;
-}
+}*/
 
 bool SONAR_Status(bool status)
 {

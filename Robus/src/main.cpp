@@ -17,6 +17,7 @@ void setup()
   BoardInit();
   AUDIO_Init();
   SONAR_Init();
+  AddLength(-30);
 }
 
 void loop()
@@ -52,7 +53,9 @@ void loop()
   if(AUDIO_started == true && SONAR_started == false && SONAR_Status(false) == true)
   {
     SONAR_started = true;
+    AddLength(450 - MOTOR_Traveled());  
     MOTOR_Update(true);
+    
   }
 
 }
