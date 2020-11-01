@@ -2,6 +2,7 @@
 #include "LibRobus.h"
 #include "Distance.h"
 #include "Audio.h"
+#include "Ball.h"
 
 void ControlGripper(int state);
 
@@ -10,20 +11,16 @@ unsigned long AUDIO_previousMillis = 0;
 
 void setup()
 {
-  //BoardInit();
-  Serial.begin(9600);
-  AUDIO_Setup();
-
-  /*while(1){
-    Serial.println("ssyt");
-    delay(200);
-  }*/
+  BoardInit();
+  //Serial.begin(9600);
+  AUDIO_Init();
 }
 
 void loop()
 {
   unsigned long currentMillis = millis();
   unsigned long AUDIO_currentMillis = millis();
+  static bool started = false;
 
   if (currentMillis - previousMillis > STEP)
   {
@@ -34,8 +31,14 @@ void loop()
   {
     AUDIO_previousMillis = AUDIO_currentMillis;
     AUDIO_Update();
-    Serial.println(AUDIO_Status(false));
+    //Serial.println(AUDIO_Status(false));
   }
+  if(started == false && AUDIO_Status(false) == true)
+  {
+    started = true;
+    BALL_Init();
+  }
+
 }
 
 void ControlGripper(int state)

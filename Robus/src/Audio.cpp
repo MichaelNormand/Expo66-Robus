@@ -1,6 +1,6 @@
 #include "Audio.h"
 
-void AUDIO_Setup(void){
+void AUDIO_Init(void){
     pinMode(54, INPUT);
 }
 
