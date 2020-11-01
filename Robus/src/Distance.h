@@ -7,7 +7,7 @@
 void AddLength(int length);
 void AddRotation(int angle, int direction);
 void AddPulse(int pulse);
-void MOTOR_Update(void);
+void MOTOR_Update(bool abort);
 uint16_t MOTOR_Abort(void);
 
 bool DistanceToGoal(int32_t goal, int dir0, int dir1);

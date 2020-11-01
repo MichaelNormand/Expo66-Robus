@@ -1,7 +1,7 @@
 #include <Distance.h>
 #include <PID.h>
 
-int movSeq[2][256];
+uint32_t movSeq[2][256];
 int movCount = 0;
 
 void AddLength(int length)
@@ -25,7 +25,7 @@ void AddPulse(int pulse)
 	movCount++;
 }
 
-void MOTOR_Update(void)
+void MOTOR_Update(bool abort)
 {
 	static int started = 0;
 	static int ended = 0;
@@ -33,6 +33,14 @@ void MOTOR_Update(void)
 	static int waitTime = 0;
 	static int dirMotor0;
 	static int dirMotor1;
+
+	if(abort == true){
+		MOTOR_SetSpeed(0, 0);
+		MOTOR_SetSpeed(1, 0);
+		started = 0;
+		ended = 1;
+		index++;
+	}
 
 	if (index >= movCount)
 	{

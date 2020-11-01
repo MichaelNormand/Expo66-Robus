@@ -3,5 +3,5 @@
 
 void KEEL_Init()
 {
-     AddLength(500);
+     AddLength(450);
 }
