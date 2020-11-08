@@ -3,30 +3,30 @@
 #include "Distance.h"
 #include "Audio.h"
 #include "Ball.h"
-#include "Sonar.h"
+#include "IR.h"
 #include "Keel.h"
 
 void ControlGripper(int state);
 
 unsigned long previousMillis = 0;
 unsigned long AUDIO_previousMillis = 0;
-unsigned long SONAR_previousMillis = 0;
+unsigned long IR_previousMillis = 0;
 
 void setup()
 {
   BoardInit();
   AUDIO_Init();
-  SONAR_Init();
-  AddLength(-30);
+  IR_Init();
+  //AddLength(-30);
 }
 
 void loop()
 {
   unsigned long currentMillis = millis();
   unsigned long AUDIO_currentMillis = millis();
-  unsigned long SONAR_currentMillis = millis();
+  unsigned long IR_currentMillis = millis();
   static bool AUDIO_started = false;
-  static bool SONAR_started = false;
+  static bool IR_started = false;
 
   if (currentMillis - previousMillis > STEP)
   {
@@ -38,11 +38,11 @@ void loop()
     AUDIO_previousMillis = AUDIO_currentMillis;
     AUDIO_Update();
   }
-  if (SONAR_currentMillis - SONAR_previousMillis > AUDIO_SAMPLE)
+  if (IR_currentMillis - IR_previousMillis > AUDIO_SAMPLE)
   {
-    SONAR_previousMillis = SONAR_currentMillis;
+    IR_previousMillis = IR_currentMillis;
     if(AUDIO_started == true)
-      SONAR_Update();
+      IR_Update();
   }
 
   if(AUDIO_started == false && AUDIO_Status(false) == true)
@@ -50,15 +50,20 @@ void loop()
     AUDIO_started = true;
     KEEL_Init();
   }
-  if(AUDIO_started == true && SONAR_started == false && SONAR_Status(false) == true)
+  if(AUDIO_started == true && IR_started == false && IR_Status(false) == true)
   {
-    SONAR_started = true;
-    AddLength(450 - MOTOR_Traveled());  
+    IR_started = true;
+    //AddLength(450 - MOTOR_Traveled());  
     MOTOR_Update(true);
-    
   }
-
 }
+
+
+
+
+
+
+
 
 void ControlGripper(int state)
 {

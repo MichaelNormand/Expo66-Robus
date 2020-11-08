@@ -1,9 +1,10 @@
-#include <librobus.h>
+/*#include <librobus.h>
 #include <sonar.h>
 #include "Distance.h"
 
 void SONAR_Init(void)
 {
+    Serial.println("SONAR INIT");
     pinMode(trigpin, OUTPUT); 
     pinMode(echopin, INPUT); 
 }
@@ -23,17 +24,23 @@ float SONAR_Update(void)
     duration = pulseIn(echopin, HIGH);
     distance = duration * 0.034 / 2; 
 
+    Serial.print("distance = ");
+    Serial.println(distance);
+
     if (triggered == false && distance < 70)
     {
         triggered = true;
+
+        Serial.println("SONAR DETECTED");
+
         //distance_reel = SONAR_Calcul(distance);
 
         if(MOTOR_Traveled() > 200 && MOTOR_Traveled() < 300){
-            AddLength(-30);
-            AddRotation(90, ROTATE_LEFT);
-            AddLength(70);
-            AddRotation(90, ROTATE_RIGHT);
-            AddLength(30);
+            //AddLength(-30);
+            //AddRotation(90, ROTATE_LEFT);
+            //AddLength(70);
+            //AddRotation(90, ROTATE_RIGHT);
+            //AddLength(30);
         } 
         else{
             AddLength((int)(distance/4));
@@ -48,7 +55,6 @@ float SONAR_Update(void)
     else 
         return 0;
 
-    Serial.println(" cm");
 }
 
 /*float SONAR_Calcul(float distance)
@@ -57,7 +63,7 @@ float SONAR_Update(void)
     return adjacent;
 }*/
 
-bool SONAR_Status(bool status)
+/*bool SONAR_Status(bool status)
 {
     static bool triggered = false;
 
@@ -65,5 +71,5 @@ bool SONAR_Status(bool status)
         triggered = true;
 
     return triggered;
-}
+}*/
     

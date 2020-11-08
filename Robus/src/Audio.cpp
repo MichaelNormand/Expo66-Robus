@@ -1,7 +1,8 @@
 #include "Audio.h"
 
 void AUDIO_Init(void){
-    pinMode(54, INPUT);
+    Serial.println("AUDIO INIT");
+    pinMode(AUDIO_PIN, INPUT);
 }
 
 void AUDIO_Update(void){
@@ -11,11 +12,15 @@ void AUDIO_Update(void){
     if(trigger == true)
         return;
 
+    //Serial.print("audio = ");
+    //Serial.println(analogRead(AUDIO_PIN));
+
     if(analogRead(AUDIO_PIN) >= AUDIO_SENSITIVITY){
         counter++;
 
         if(counter == AUDIO_SAMPLE_COUNT){
             trigger = true;
+            Serial.println("AUDIO DETECTED");
             AUDIO_Status(true);
             return;
         }
