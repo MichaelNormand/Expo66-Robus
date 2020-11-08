@@ -227,15 +227,10 @@ uint16_t MOTOR_Abort(void){
 
 	MOTOR_Update(true);
 
-
-	/*MOTOR_SetSpeed(0, 0);
-	MOTOR_SetSpeed(1, 0);
-
-	for(uint16_t i = 0; i < movCount; i++){
-		movSeq[0][i] = 0;
-		movSeq[1][i] = 0;
-	}
-	movCount = 0;*/
-
 	return distance;
 }
+
+/*void MOTOR_RemoveSequence(uint16_t count)
+{
+	movCount -= count;
+}*/

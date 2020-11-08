@@ -10,6 +10,7 @@ void AddPulse(int pulse);
 void MOTOR_Update(bool abort);
 uint16_t MOTOR_Traveled(void);
 uint16_t MOTOR_Abort(void);
+//void MOTOR_RemoveSequence(uint16_t count);
 
 bool DistanceToGoal(int32_t goal, int dir0, int dir1);
 float PID(int32_t encoder, float speed, int dir, bool motor, float *dataPID);

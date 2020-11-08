@@ -50,11 +50,26 @@ void loop()
     AUDIO_started = true;
     KEEL_Init();
   }
-  if(AUDIO_started == true && IR_started == false && IR_Status(false) == true)
+  if(AUDIO_started == true && IR_started == false && IR_Status(IR_GET_INFO) > 0)
   {
     IR_started = true;
-    //AddLength(450 - MOTOR_Traveled());  
     MOTOR_Update(true);
+
+    //Serial.print("IR_Status(IR_GET_INFO) =");
+    //Serial.print(IR_Status(IR_GET_INFO));
+
+    if(IR_Status(IR_GET_INFO) == IR_ZONE_2)
+    {
+      while(1)
+      {
+        delay(10);
+
+        if(IR_Wait())
+        {
+          break;
+        }
+      }
+    }
   }
 }
 
