@@ -6,6 +6,14 @@
 {
     Adafruit_TCS34725 tcs = Adafruit_TCS34725();
 
+    pinMode(2, OUTPUT);
+    pinMode(3, OUTPUT);
+    pinMode(4, OUTPUT);
+
+    digitalWrite(2, HIGH);
+    digitalWrite(3, HIGH);
+    digitalWrite(4, HIGH);
+
     return tcs;
 }
 
@@ -24,16 +32,19 @@ int COLORSENSOR_Update(Adafruit_TCS34725 tcs)
 
     if(r == g && r > b){
         Serial.print("JAUNE");
+        digitalWrite(2, LOW);
         return 0; 
     }
     else if(g > b && b > r)
     {
         Serial.print("BLEU");
+        digitalWrite(3, LOW);
         return 1;
     }
     else if(r > g && g == b)
     {
         Serial.print("ROUGE");
+        digitalWrite(4, LOW);
         return 2;
     }
 
