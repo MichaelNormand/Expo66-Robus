@@ -16,51 +16,27 @@ float IR_Update(void)
     
 
     distance = ROBUS_ReadIR(0);
-    //distance_reel = (1000/distance) - 2; 
 
-    /*if(trigger == false)
-    {
-        Serial.print("distance_reel = ");
-        if(distance_reel < IR_SENSITIVITY)
-            Serial.println(distance_reel);
-        else
-            Serial.println();
-    }*/
-
-    /*if(trigger == false && MOTOR_Traveled() >= 445)
-    {
-        trigger = true;
-        AddRotation(90, ROTATE_LEFT)
-        AddLength(65);
-    }*/
-
-    if (trigger == false && distance > IR_SENSITIVITY)
+    if (trigger == false && distance > IR_SENSITIVITY && MOTOR_Traveled() >= 20)
     {
         counter++;
 
         if(counter == IR_SAMPLE_COUNT){
             trigger = true;
-            Serial.println("IR DETECTED");
 
-            if(MOTOR_Traveled() >= 0 && MOTOR_Traveled() < 235)
+            if(MOTOR_Traveled() >= 0 && MOTOR_Traveled() < IR_ZONE_1_END)
             {
                 IR_Status(IR_ZONE_1);
-                //AddRotation(90, ROTATE_LEFT);
-                //AddLength(65);
-                AddRotation(90, ROTATE_RIGHT);
-                AddLength(150 - MOTOR_Traveled());
+                AddLength(12);
             }
-            else if(MOTOR_Traveled() >= 235 && MOTOR_Traveled() <= 255)
+            else if(MOTOR_Traveled() >= IR_ZONE_1_END && MOTOR_Traveled() <= IR_ZONE_2_END)
             {
                 IR_Status(IR_ZONE_2);
-                //AddRotation(90, ROTATE_LEFT);
-                //AddLength(65);
+                AddLength(12);
             } 
-            else if(MOTOR_Traveled() > 255 && MOTOR_Traveled() < 450)
+            else if(MOTOR_Traveled() > IR_ZONE_2_END && MOTOR_Traveled() < IR_ZONE_3_END - 15)
             {
                 IR_Status(IR_ZONE_3);
-                //AddRotation(90, ROTATE_LEFT);
-                //AddLength(65);
                 AddRotation(90, ROTATE_RIGHT);
                 AddLength(450 - MOTOR_Traveled());
             }
@@ -100,7 +76,7 @@ bool IR_Wait(void)
     {
         count ++;
 
-        if(count == 15)
+        if(count == IR_WAIT_COUNT)
             return 1;
     }
     else

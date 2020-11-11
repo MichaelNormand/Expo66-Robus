@@ -1,5 +1,5 @@
-#include <Distance.h>
-#include <PID.h>
+#include "Distance.h"
+#include "PID.h"
 
 int32_t movSeq[2][256];
 int movCount = 0;
@@ -13,7 +13,8 @@ void AddLength(int length)
 
 void AddRotation(int angle, int direction)
 {
-	movSeq[0][movCount] = angle * direction * 17.78; //6400 pulses = 360deg -> 17.78 pulses = 1deg
+	//movSeq[0][movCount] = angle * direction * 17.78; //6400 pulses = 360deg -> 17.78 pulses = 1deg
+	movSeq[0][movCount] = angle * direction;
 	movSeq[1][movCount] = ROTATION;
 	movCount++;
 }
@@ -79,6 +80,9 @@ void MOTOR_Update(bool abort)
 		}
 		else
 		{ //Left or right
+
+
+
 			if (movSeq[0][index] > 0)
 			{
 				dirMotor0 = -1; //Left
@@ -105,12 +109,28 @@ void MOTOR_Update(bool abort)
 
 	if(dirMotor0 != dirMotor1)
 	{
-		if (DistanceToGoal(movSeq[0][index], dirMotor0, dirMotor1) == DONE)
+		Serial.println("******************");
+		Serial.print("dirMotor0 = ");
+		Serial.println(dirMotor0);
+		Serial.print("dirMotor1 = ");
+		Serial.println(dirMotor1);
+		Serial.println("******************");
+
+		if(dirMotor0 == -1)
 		{
+			RotateLeft(movSeq[0][index]);
+		}
+		else
+		{
+			RotateRight(movSeq[0][index]);
+		}
+
+		//if (DistanceToGoal(movSeq[0][index], dirMotor0, dirMotor1) == DONE)
+		//{
 			started = 0;
 			ended = 1;
 			index++;
-		}
+		//}
 	}
 	else
 	{

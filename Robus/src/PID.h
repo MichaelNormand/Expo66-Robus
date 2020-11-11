@@ -12,4 +12,8 @@ bool AdjustOneCycle();
 void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMotorDirection);
 uint16_t PID_Traveled(void);
 
+void RotateLeft(float angle);
+void RotateRight(float angle);
+void ResetCycle(void);
+
 #endif

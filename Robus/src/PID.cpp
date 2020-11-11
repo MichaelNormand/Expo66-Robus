@@ -133,3 +133,96 @@ void SetDistanceToGoal(float requiredPulses, int leftMotorDirection, int rightMo
 uint16_t PID_Traveled(void){
 	return (uint16_t)((leftTraveledDistance + rightTraveledDistance) / 267.34);
 }
+
+void RotateRight(float angle)
+{
+  ResetCycle();
+  float distanceForWheel = angle * 14.95;
+  bool cycleFinished = false;
+  while (!cycleFinished)
+  {
+    leftTraveledDistance += ENCODER_ReadReset(0);
+    rightTraveledDistance += ENCODER_ReadReset(1);
+    if (leftTraveledDistance <= distanceForWheel)
+    {
+      MOTOR_SetSpeed(0, 0.15);
+    }
+    else
+    {
+      MOTOR_SetSpeed(0, 0);
+    }
+    if (rightTraveledDistance >= distanceForWheel * -1)
+    {
+      MOTOR_SetSpeed(1, -0.15);
+    }
+    else
+    {
+      MOTOR_SetSpeed(1, 0);
+    }
+    if (leftTraveledDistance >= distanceForWheel && rightTraveledDistance <= distanceForWheel * -1)
+    {
+      cycleFinished = true;
+    }
+  }
+  MOTOR_SetSpeed(0, 0);
+  MOTOR_SetSpeed(1, 0);
+}
+
+void RotateLeft(float angle)
+{
+  ResetCycle();
+  float distanceForWheel = angle * 14.95;
+  bool cycleFinished = false;
+  while (!cycleFinished)
+  {
+    leftTraveledDistance += ENCODER_ReadReset(0);
+    rightTraveledDistance += ENCODER_ReadReset(1);
+    if (leftTraveledDistance >= distanceForWheel * -1)
+    {
+      MOTOR_SetSpeed(0, -0.15);
+    }
+    else
+    {
+      MOTOR_SetSpeed(0, 0);
+    }
+    if (rightTraveledDistance <= distanceForWheel)
+    {
+      MOTOR_SetSpeed(1, 0.15);
+    }
+    else
+    {
+      MOTOR_SetSpeed(1, 0);
+    }
+    if (leftTraveledDistance <= distanceForWheel * -1 && rightTraveledDistance >= distanceForWheel)
+    {
+      cycleFinished = true;
+    }
+  }
+  MOTOR_SetSpeed(0, 0);
+  MOTOR_SetSpeed(1, 0);
+}
+
+void ResetCycle()
+{
+  lastCycle = 0;
+  actualTime = 0;
+  cycleDelay = 10;
+  pids[0] = 0;
+  pids[1] = 0;
+  pid = 0.0;
+  overflowLeft = 0.0;
+  overflowRight = 0.0;
+  encoderLeft = 0.0;
+  encoderRight = 0.0;
+  rightTraveledDistance = 0.0;
+  leftTraveledDistance = 0.0;
+  encoderRead = 0;
+  cycle = 1;
+  goal = 200;
+  actualSpeed = 0;
+  error = 0;
+  lastErrors[0] = goal;
+  lastErrors[1] = goal;
+  lastError = 0;
+  nextError = 0;
+}
