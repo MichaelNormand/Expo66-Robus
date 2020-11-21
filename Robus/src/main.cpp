@@ -1,41 +1,23 @@
 #include <Arduino.h>
-#include "LibRobus.h"
-#include "Distance.h"
-
-void ControlGripper(int state);
-
-unsigned long previousMillis = 0;
-
+#include <Manual_Override.h>
+#include <Communication.h>
 
 void setup() {
   BoardInit();
-  Serial.begin(115200);
-
-  // SERVO_Enable(1);
-
-  AddRotation(45, ROTATE_LEFT);
-  AddLength(30);
-  AddRotation(180, ROTATE_RIGHT);
+  Communication_Init();
 }
  
 void loop() {
-  unsigned long currentMillis = millis();
+  static int32_t previousMillis = 0;
+  int32_t currentMillis = millis();
 
-  if(currentMillis - previousMillis > MOVE_SAMPLE_DELAY) {
+  if(currentMillis - previousMillis > 20) 
+  {
     previousMillis = currentMillis;
-    UpdateMotors();
+    DataRequest();
+    RobusProcess();
   }
-
-  // ControlGripper(OPENED);
-  // delay(2000);
-  // ControlGripper(CLOSED);
-  // delay(2000);
 }
 
-void ControlGripper(int state)
-{ 
-  if(state == OPENED)
-    SERVO_SetAngle(1, 120);  
-  else
-    SERVO_SetAngle(1, 0);  
-}
+
+

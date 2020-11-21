@@ -1,28 +1,39 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define MOTOR0 0
-#define MOTOR1 1
-#define STEP  20    // Resolution for ENCODER_Read().
-#define RPS   100   // RPS = Rotation per step -> just like RPM but with a different time base.
-
-#define KP 0.001    // Constants need tuning.
-#define KI 0.007
-#define KD 0.004
-
-#define SPEED0 0.3
-#define SPEED1 0.3
-
+//Return status
 #define NOT_DONE 0
 #define DONE 1
 
-#define ROTATE_LEFT 1
-#define ROTATE_RIGHT -1
-#define MOVE_SAMPLE_DELAY 10
-#define LENGTH 0
-#define ROTATION 1
+//Movement correction
+#define GO 1
+#define STOP 0
 
-#define OPENED 1
-#define CLOSED 0
+#define ON 1
+#define OFF 0
+
+//Robus Mode
+#define MANUAL 1
+#define AUTO 0
+
+//Gripper
+#define UP 1
+#define DOWN 0
+#define OPEN 1
+#define CLOSE 0
+
+//Gripper
+#define GRIPPER 0
+#define WRIST 1
+#define UP_VAL 120
+#define DOWN_VAL 160
+
+#define DIS 0
+#define DEG 1
+#define DIR 2
+#define STATE 3
+
+#define GET 0
+#define SET 1
 
 #endif
