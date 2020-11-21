@@ -8,6 +8,7 @@
 //Movement correction
 #define GO 1
 #define STOP 0
+#define ROTATE 2
 
 #define ON 1
 #define OFF 0

@@ -41,3 +41,12 @@ void GetSetState(int *state, int action)
   if(action == GET)
     *state = temp;
 }
+
+void GetSetDis(int *state, int action)
+{
+  static int temp = 0;
+  if(action == SET)
+    temp = *state;
+  if(action == GET)
+    *state = temp;
+}

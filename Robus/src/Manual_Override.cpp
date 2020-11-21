@@ -29,8 +29,13 @@ void RobusProcess(void)
       GetSetMove(move, GET);
       if(Move(move[DIS], 1, move[STATE]) == DONE)
       {
-        state = Rotate(move[DEG], move[DIR]);
-        GetSetState(&state, SET);
+        move[STATE] = STOP;
+        GetSetMove(move, SET);
+        if(move[STATE] == ROTATE)
+        {
+          state = Rotate(move[DEG], move[DIR]);
+          GetSetState(&state, SET);
+        }
       }
     }
   // }

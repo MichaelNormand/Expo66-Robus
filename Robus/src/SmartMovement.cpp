@@ -7,7 +7,6 @@
 
 bool smart_movement_init(void)
 {
-    //uint32_t distance = 1000 / (ROBUS_ReadIR(0) - 2);
     uint32_t distance = (6787 / (ROBUS_ReadIR(0) - 3)) - 4;
 
     Serial.print("distance = ");
@@ -17,7 +16,7 @@ bool smart_movement_init(void)
     if(distance < 100)
     {
         Serial.println(" OK");
-        timebase_add(smart_movement_update, 50);
+        timebase_add(smart_movement_lock_update, 50);
         return true;
     }
     else
@@ -27,7 +26,7 @@ bool smart_movement_init(void)
     }
 }
 
-void smart_movement_update(void)
+void smart_movement_lock_update(void)
 {
     static int started = false;
     static int state = false;
@@ -36,7 +35,7 @@ void smart_movement_update(void)
     static uint32_t errorCount = 0;
     static float move[4] = {DIS, DEG, DIR, STATE};
 
-    Serial.println("UPDATE");
+    //Serial.println("UPDATE");
 
     if(started == false)
     {
@@ -54,6 +53,11 @@ void smart_movement_update(void)
         return;
     }
     
+    GetSetMove(move, GET);
+
+    Serial.print("GetSetDis = ");
+    Serial.println(move[STATE]);
+
     /*if(locked == true)
     {
         if(((6787 / (ROBUS_ReadIR(0) - 3)) - 4) > goal)
@@ -85,16 +89,16 @@ void smart_movement_update(void)
         //return;             //***???
     }*/
     
-    //GetSetState(&state, GET);
+    //GetSetDis(&state, GET);
 
-    /*//AUTO RESET
+    /*AUTO RESET
     if(state)
     {
         Serial.println("ENDED");
         started = false;
         //state = false;
         errorCount = 0;
-        timebase_disable(smart_movement_update);
+        timebase_disable(smart_movement_lock_update);
     }*/
 
 
@@ -123,7 +127,7 @@ bool smart_movement_lock(uint32_t* goal)
                 move[DIS] = 0;
                 move[DEG] = 2;
                 move[DIR] = LEFT;
-                move[STATE] = GO;
+                move[STATE] = ROTATE;
                 GetSetMove(move, SET);
             }
             else if(sequence == 10)
@@ -131,7 +135,7 @@ bool smart_movement_lock(uint32_t* goal)
                 move[DIS] = 0;
                 move[DEG] = 2*10;
                 move[DIR] = RIGHT;
-                move[STATE] = GO;
+                move[STATE] = ROTATE;
                 GetSetMove(move, SET);
             }
             else if (sequence <= 20)
@@ -139,7 +143,7 @@ bool smart_movement_lock(uint32_t* goal)
                 move[DIS] = 0;
                 move[DEG] = 2;
                 move[DIR] = RIGHT;
-                move[STATE] = GO;
+                move[STATE] = ROTATE;
                 GetSetMove(move, SET);
             }
         }

@@ -21,6 +21,8 @@ void setup()
   delay(3000);
 
   Serial.println("IAROMYR");
+
+  
   timebase_add(RobusProcess, 20);
   //timebase_add(sound_play_object, 2000);
   //timebase_add(sonar_update, 150);

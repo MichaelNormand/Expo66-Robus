@@ -8,6 +8,9 @@ int Move(float cm, bool dir, int state)
   static float speed[2] = {SPEED0, SPEED1};
   static float encoder[2] = {0, 0};
 
+  if(state != GO)
+    distance = goal;
+
   if(distance < goal)
   {
     encoder[LEFT] = (float)ENCODER_ReadReset(LEFT);
@@ -25,8 +28,7 @@ int Move(float cm, bool dir, int state)
 
     return NOT_DONE;
   }
-  
-  if(distance >= goal || state == STOP)
+  else
   {
     ENCODER_ReadReset(LEFT);
     ENCODER_ReadReset(RIGHT);
@@ -35,9 +37,8 @@ int Move(float cm, bool dir, int state)
     speed[RIGHT] = SPEED1;
     MOTOR_SetSpeed(LEFT, 0);
     MOTOR_SetSpeed(RIGHT, 0);
-    return DONE;
   }
-  
+  return DONE;
 }
 
 int Rotate(float deg, bool direction)
@@ -86,9 +87,8 @@ int Rotate(float deg, bool direction)
     speed[RIGHT] = SPEED1;
     MOTOR_SetSpeed(LEFT, 0);
     MOTOR_SetSpeed(RIGHT, 0);
-    return DONE;
   }
-  
+  return DONE;
 }
 
 void SpeedUp(float *speed, float goal, float distance)
