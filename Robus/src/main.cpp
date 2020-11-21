@@ -4,6 +4,8 @@
 #include "Sound.h"
 #include "Sonar.h"
 #include "SmartMovement.h"
+#include "Manual_Override.h"
+#include "Gripper.h"
 
 void IR_update(void);
 void sonar_update(void);
@@ -14,15 +16,25 @@ void setup()
 
   BoardInit();
 
+  ControlWrist(DOWN);
+
+  delay(3000);
+
   Serial.println("IAROMYR");
+  timebase_add(RobusProcess, 20);
   //timebase_add(sound_play_object, 2000);
   //timebase_add(sonar_update, 150);
 }
 
 void loop()
 {
-  if(smart_movement_init())
-    while(1);
+  static bool initialized = false;
+
+  if(initialized == false)
+  {
+    if(smart_movement_init() == true)
+      initialized = true;
+  }
 
   SOFT_TIMER_Update();
 }

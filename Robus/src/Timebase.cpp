@@ -33,10 +33,12 @@ void timebase_status(void (*function)(void), bool status)
 
 void timebase_add(void (*function)(void), uint32_t milliseconds)
 {
+    Serial.print("TIMEBASE : ");
     for(uint32_t i = 0; i < timebase_callback_count; i++)
     {
         if(timebase_callback[i] == function)
         {
+            Serial.println("MODIFIED");
             SOFT_TIMER_SetDelay(timebase_callback_count, milliseconds);
             SOFT_TIMER_SetRepetition(timebase_callback_count, -1);
             SOFT_TIMER_Enable(timebase_callback_count);
@@ -44,6 +46,7 @@ void timebase_add(void (*function)(void), uint32_t milliseconds)
         }
     }
 
+    Serial.println("ADDED");
     timebase_callback[timebase_callback_count] = function;
     SOFT_TIMER_SetCallback(timebase_callback_count, function);
     SOFT_TIMER_SetDelay(timebase_callback_count, milliseconds);
