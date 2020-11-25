@@ -8,9 +8,8 @@ void RobusProcess(void)
 {
   static uint8_t data[16];
   static float speed[2] = {SPEED0, SPEED1};
-  //static float iaromyr = OFF;
-  static float  move[4];
-  static int state = DONE;
+  static float iaromyr = OFF;
+  static float  move[4]; /*= {0, 90, LEFT, ROTATE}*/
 
   GetSetData(data, GET);
 
@@ -27,14 +26,20 @@ void RobusProcess(void)
     if(ManualOverride(data, speed) == AUTO)
     {
       GetSetMove(move, GET);
-      if(Move(move[DIS], 1, move[STATE]) == DONE)
+      if(move[STATE] == FORWARD)
       {
-        move[STATE] = STOP;
-        GetSetMove(move, SET);
-        if(move[STATE] == ROTATE)
+        if(Move(move[DIS], 1) == DONE)
         {
-          state = Rotate(move[DEG], move[DIR]);
-          GetSetState(&state, SET);
+          move[STATE] = STOP;
+          GetSetMove(move, SET);
+        }
+      }
+      if(move[STATE] == ROTATE)
+      {
+        if(Rotate(move[DEG], move[DIR]) == DONE)
+        {
+          move[STATE] = STOP;
+          GetSetMove(move, SET);
         }
       }
     }

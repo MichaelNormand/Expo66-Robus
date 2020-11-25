@@ -6,9 +6,10 @@
 #define DONE 1
 
 //Movement correction
-#define GO 1
+#define FORWARD 2
 #define STOP 0
-#define ROTATE 2
+#define HALTED 1
+#define ROTATE 3
 
 #define ON 1
 #define OFF 0

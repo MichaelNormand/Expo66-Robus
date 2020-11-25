@@ -1,18 +1,18 @@
 #include <Movements.h>
 
-int Move(float cm, bool dir, int state)
+int Move(float cm, bool dir)
 {
   // 1 cm = 133.67 pulses
   float goal = cm * 133.6;
   static float distance = 0;
   static float speed[2] = {SPEED0, SPEED1};
   static float encoder[2] = {0, 0};
-
-  if(state != GO)
-    distance = goal;
+  static bool done = false;
 
   if(distance < goal)
   {
+    done = true;
+
     encoder[LEFT] = (float)ENCODER_ReadReset(LEFT);
     encoder[RIGHT] = (float)ENCODER_ReadReset(RIGHT);
 
@@ -28,8 +28,10 @@ int Move(float cm, bool dir, int state)
 
     return NOT_DONE;
   }
-  else
+  
+  else if(done == true)
   {
+    done = false;
     ENCODER_ReadReset(LEFT);
     ENCODER_ReadReset(RIGHT);
     distance = 0;
@@ -50,6 +52,7 @@ int Rotate(float deg, bool direction)
   static float encoder[2] = {0, 0};
   float dirLeft;
   float dirRight;
+  static bool done = false;
 
   if(direction == LEFT)
   {
@@ -61,9 +64,10 @@ int Rotate(float deg, bool direction)
     dirLeft = 1;
     dirRight = -1;
   }
-  
+
   if(distance < goal)
   {
+    done = true;
     encoder[LEFT] = (float)ENCODER_ReadReset(LEFT);
     encoder[RIGHT] = (float)ENCODER_ReadReset(RIGHT);
     distance += ((encoder[LEFT] * dirLeft) + (encoder[RIGHT] * dirRight) / 2);
@@ -78,8 +82,9 @@ int Rotate(float deg, bool direction)
 
     return NOT_DONE;
   }
-  else
+  else if(done == true)
   {
+    done = false;
     ENCODER_ReadReset(LEFT);
     ENCODER_ReadReset(RIGHT);
     distance = 0;

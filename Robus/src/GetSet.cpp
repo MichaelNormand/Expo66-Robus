@@ -34,19 +34,10 @@ void GetSetData(uint8_t *data, int action)
 }
 
 void GetSetState(int *state, int action)
-{
+{ 
   static int temp = 0;
   if(action == SET)
-    temp = *state;
+  temp = *state;
   if(action == GET)
-    *state = temp;
-}
-
-void GetSetDis(int *state, int action)
-{
-  static int temp = 0;
-  if(action == SET)
-    temp = *state;
-  if(action == GET)
-    *state = temp;
+  *state = temp;
 }

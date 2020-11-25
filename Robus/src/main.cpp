@@ -13,19 +13,14 @@ void sonar_update(void);
 void setup()
 {
   sound_init();
-
   BoardInit();
 
   ControlWrist(DOWN);
-
-  delay(3000);
-
+  ControlGripper(OPEN);
   Serial.println("IAROMYR");
+  delay(1000);
 
-  
   timebase_add(RobusProcess, 20);
-  //timebase_add(sound_play_object, 2000);
-  //timebase_add(sonar_update, 150);
 }
 
 void loop()
@@ -34,12 +29,20 @@ void loop()
 
   if(initialized == false)
   {
-    if(smart_movement_init() == true)
+    if(smart_align_init(100) == true)
       initialized = true;
   }
 
   SOFT_TIMER_Update();
 }
+
+
+
+
+
+
+
+
 
 void IR_update(void)
 {

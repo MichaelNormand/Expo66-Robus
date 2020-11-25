@@ -7,7 +7,5 @@
 void GetSetMove(float *move, int action);
 void GetSetData(uint8_t *data, int action);
 void GetSetState(int *state, int action);
-void GetSetDis(int *state, int action);
-
 
 #endif
