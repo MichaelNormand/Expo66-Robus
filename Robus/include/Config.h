@@ -38,4 +38,9 @@
 #define GET 0
 #define SET 1
 
+#define INIT 0
+#define START 1
+#define RESET 2
+#define SWEEPSTOP 3
+
 #endif

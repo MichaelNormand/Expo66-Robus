@@ -7,7 +7,7 @@
 struct DisDeg
 {
     float distance;
-    int angle;
+    float angle;
 };
 
 void sweep(void);

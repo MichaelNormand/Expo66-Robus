@@ -53,6 +53,7 @@ int Rotate(float deg, bool direction)
   float dirLeft;
   float dirRight;
   static bool done = false;
+  static float degTemp;
 
   if(direction == LEFT)
   {
@@ -71,6 +72,8 @@ int Rotate(float deg, bool direction)
     encoder[LEFT] = (float)ENCODER_ReadReset(LEFT);
     encoder[RIGHT] = (float)ENCODER_ReadReset(RIGHT);
     distance += ((encoder[LEFT] * dirLeft) + (encoder[RIGHT] * dirRight) / 2);
+    degTemp = distance/33.3;
+    GetSetAngle(&degTemp, SET);
 
     SpeedUp(speed, goal, distance);
     SpeedDown(speed, goal, distance);
