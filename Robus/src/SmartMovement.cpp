@@ -261,12 +261,17 @@ void smart_align(void){
     static float move[4] = {0, 0, 0, 0};
     static bool started = false;
     static bool locked = false;
+    static bool dir = LEFT;
     static uint32_t distance = 0;
     static uint32_t sequence = 0;
     static uint32_t wait = 0;
     uint32_t state;
 
-    Serial.println("ALIGN");
+
+    //smart_ir_read(&distance);
+    Serial.print("ALIGN  : ");
+    //Serial.println(distance);
+    //return;
 
     GetSetMove(move, GET);
 
@@ -281,26 +286,58 @@ void smart_align(void){
 
     if(locked == true)
     {
+        if(move[STATE] != STOP)
+            return;
+
         Serial.print("LAST BIT : ");
-        Serial.println(distance);
 
-        if(distance > 10)
-            distance -= 10;
+        if(sequence == 0)
+        {
+            Serial.print(10);
+            Serial.println("deg");
 
-        move[DIS] = distance;
-        move[DEG] = 0;
-        move[DIR] = 0;
-        move[STATE] = FORWARD;
-        
-        started = false;
-        locked = false;
-        sequence = 0;
-        wait = 0;
-        state = STOP;
+            sequence++;
+            if(dir == LEFT)
+            {
+                move[DIS] = 0;
+                move[DEG] = 5;
+                move[DIR] = dir;
+                move[STATE] = ROTATE;
+                GetSetMove(move, SET);
+            }
+        }
+        else if (sequence == 1)
+        {
+            sequence++;
+            move[DIS] = 0;
+            move[DEG] = 0;
+            move[DIR] = 0;
+            move[STATE] = ROTATE;
+            GetSetMove(move, SET);
+        }
+        else
+        {
+            Serial.print(distance);
+            Serial.println("cm");
 
-        GetSetMove(move, SET);
-        smart_align_status(&state, SET);
-        timebase_disable(smart_align);
+            if(distance > 5)
+                distance -= 5;
+
+            started = false;
+            locked = false;
+            sequence = 0;
+            wait = 0;
+            state = STOP;
+
+            move[DIS] = distance;
+            move[DEG] = 0;
+            move[DIR] = 0;
+            move[STATE] = FORWARD;
+
+            smart_align_status(&state, SET);
+            GetSetMove(move, SET);
+            timebase_disable(smart_align);
+        }
 
         return;
     }
@@ -313,6 +350,7 @@ void smart_align(void){
         Serial.println(distance);
 
         locked = true;
+        sequence = 0;
         move[DIS] = 0;
         move[DEG] = 0;
         move[DIR] = 0;
@@ -323,16 +361,14 @@ void smart_align(void){
     {
          if(move[STATE] == STOP)
         {
-            //Serial.println("NOT BUSY");
-            Serial.print("zequence[");
+            Serial.print("Sequence[");
             Serial.print(sequence);
             Serial.print("] : ");
-            //Serial.print(*goal + 15);
-            //Serial.print(" : ");
             Serial.println(distance);
 
             if(sequence == 0)
             {
+                dir = LEFT;
                 if(wait <= 2)
                 {
                     wait++;
@@ -345,6 +381,7 @@ void smart_align(void){
             }
             else if(sequence <= 10)
             {
+                dir = LEFT;
                 if(wait <= 2)
                 {
                     wait++;
@@ -362,6 +399,7 @@ void smart_align(void){
             }
             else if(sequence == 11)
             {
+                dir = RIGHT;
                 if(wait <= 2)
                 {
                     wait++;
@@ -379,6 +417,7 @@ void smart_align(void){
             }
             else if (sequence <= 21)
             {
+                dir = RIGHT;
                 if(wait <= 2)
                 {
                     wait++;

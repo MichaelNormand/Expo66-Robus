@@ -5,6 +5,7 @@ void (*sound_list[SOUND_COUNT])(void);
 
 void sound_init(void)
 {
+    Serial.println("SOUND_INIT");
     pinMode(SOUND_PIN, OUTPUT);
     digitalWrite(SOUND_PIN, LOW);
     sound_list[SOUND_OBJECT] = sound_play_object;

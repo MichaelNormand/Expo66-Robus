@@ -28,7 +28,7 @@
 #define GRIPPER 0
 #define WRIST 1
 #define UP_VAL 120
-#define DOWN_VAL 160
+#define DOWN_VAL 180
 
 #define DIS 0
 #define DEG 1
