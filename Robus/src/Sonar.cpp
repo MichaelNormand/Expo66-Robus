@@ -20,10 +20,11 @@ void sonar_update(void)
     delayMicroseconds(10);
     digitalWrite(SONAR_TRIGPIN, LOW);
     duration = pulseIn(SONAR_ECHOPIN, HIGH);
+    //Serial.println(duration);
     sonar_distance = duration * 0.034  / 2; 
     sonar_distance += sonar_distance / 20 * 5.2;
-    Serial.print("distance = ");
-    Serial.println(sonar_distance);
+    //Serial.print("distance = ");
+    //Serial.println(sonar_distance);
 }
 
 float sonar_get_data(void)

@@ -1,0 +1,13 @@
+#include <Arduino.h>
+#include <LibRobus.h>
+#include "Config.h"
+#include "GetSet.h"
+#include "Sonar.h"
+
+struct DisDeg
+{
+    float distance;
+    int angle;
+};
+
+void sweep(void);
