@@ -33,11 +33,11 @@ void GetSetData(uint8_t *data, int action)
   }
 }
 
-void GetSetState(int *state, int action)
+void GetSetAngle(float *angle, int action)
 { 
-  static int temp = 0;
+  static float temp = 0;
   if(action == SET)
-  temp = *state;
+    temp = *angle;
   if(action == GET)
-  *state = temp;
+    *angle = temp;
 }

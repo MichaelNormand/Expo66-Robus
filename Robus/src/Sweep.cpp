@@ -7,55 +7,54 @@ void sweep(void)
     int state;
     static struct DisDeg disDeg;
     float distance = 0;
-    static int steps = 1;
+    static int status = INIT;
 
-    if (steps == 0)
-        increment = 0;
+    if (status == INIT)
+    {
+        disDeg.distance = 100;
+        disDeg.angle = 0;
+        rotate[DIS] = 0;
+        rotate[DEG] = 90;
+        rotate[DIR] = RIGHT;
+        rotate[STATE] = ROTATE;
 
-    if (increment < 90)
+        GetSetMove(rotate, SET);
+
+        status = START;
+    }
+
+    if (status == START)
     {
         GetSetMove(rotate, GET);
-
-        Serial.println(state);
-
-        if (rotate[STATE] == STOP)
+        if (rotate[STATE] != STOP)
         {
-            rotate[DIS] = 0;
-            rotate[DEG] = 2;
-            rotate[DIR] = RIGHT;
-            rotate[STATE] = ROTATE;
-
-            Serial.print("Rotate set: ");
-            Serial.println(increment);
-
-            if (increment == 0)
-            {
-                disDeg.distance = 100;
-            }
-
             distance = sonar_get_data();
-
             if (distance < 100 && distance > 5)
             {
                 if (distance < disDeg.distance)
                 {
                     disDeg.distance = distance;
-                    disDeg.angle = increment + 15;
+                    GetSetAngle(&disDeg.angle, GET);
+
+                    Serial.print("distance = ");
+                    Serial.println(disDeg.distance);
+                    Serial.print("Angle = ");
+                    Serial.println(disDeg.angle);
                 }
             }
-
-            GetSetMove(rotate, SET);
-            increment += 2;
         }
+
+        else status = RESET;
     }
 
-    if (increment == 90)
+    if (status == RESET)
     {
-        increment = 500;
-        rotate[0] = 0;
-        rotate[1] = 90 - disDeg.angle;
-        rotate[2] = LEFT;
-        rotate[3] = ROTATE;
+        rotate[DIS] = 0;
+        rotate[DEG] = 90 - disDeg.angle;
+        rotate[DIR] = LEFT;
+        rotate[STATE] = ROTATE;
         GetSetMove(rotate, SET);
+
+        status = SWEEPSTOP;
     }
 }
