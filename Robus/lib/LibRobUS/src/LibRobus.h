@@ -28,8 +28,8 @@ General librairies for Robus robot
 
 #define MAX_N_TIMER 10 // Nombre maximum de Chronometres
 #define BAUD_RATE_SERIAL0 9600
-#define BAUD_RATE_BLUETOOTH 115200
-#define SerialBT Serial2
+#define BAUD_RATE_BLUETOOTH 9600
+//#define SerialBT Serial2
 #define SerialAudio Serial3
 #define IR_RECV_PIN 37
 

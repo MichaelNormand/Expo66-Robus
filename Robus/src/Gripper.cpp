@@ -26,8 +26,8 @@ void ControlGripper(int state)
 
 void ControlWrist(int state)
 {
-  if (state == DOWN)
-    SERVO_SetAngle(WRIST, DOWN_VAL);
-  else
-    SERVO_SetAngle(WRIST, UP_VAL);
+    if (state == DOWN)
+        SERVO_SetAngle(WRIST, DOWN_VAL);
+    else
+        SERVO_SetAngle(WRIST, UP_VAL);
 }

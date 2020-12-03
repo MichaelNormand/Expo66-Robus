@@ -47,7 +47,7 @@ void DisplayInit(){
 
 void BluetoothInit(){
   // Init serial bluetooth
-  SerialBT.begin(BAUD_RATE_BLUETOOTH);
+  //SerialBT.begin(BAUD_RATE_BLUETOOTH);
 }
 
 void MOTOR_SetSpeed(uint8_t id, float speed){
@@ -217,11 +217,11 @@ void SOFT_TIMER_Update(){
 };
 
 void BLUETOOTH_print(String msg){
-  SerialBT.print(msg);
+  //SerialBT.print(msg);
 };
 
 void BLUETOOTH_println(String msg){
-  SerialBT.println(msg);
+  //SerialBT.println(msg);
 };
 
 void BLUETOOTH_setCallback(void (*f)()){
@@ -233,24 +233,24 @@ void serialEvent2(){
 };
 
 void BLUETOOTH_readCallback(){
-  String inputString;
-  while (SerialBT.available()) {
-    // get the new byte:
-    char inChar = (char)SerialBT.read();
-    // add it to the inputString:
-    inputString += inChar;
-    }
-  BlUETOOTH_MSG = inputString;
+  // String inputString;
+  // while (SerialBT.available()) {
+  //   // get the new byte:
+  //   char inChar = (char)SerialBT.read();
+  //   // add it to the inputString:
+  //   inputString += inChar;
+  //   }
+  // BlUETOOTH_MSG = inputString;
 }
 
 String BLUETOOTH_read(){
-  String inputString;
-  while (SerialBT.available()) {
+  String inputString = "";
+  /*while (SerialBT.available()) {
     // get the new byte:
     char inChar = (char)SerialBT.read();
     // add it to the inputString:
     inputString += inChar;
-    }
+    }*/
   return inputString;
 }
 

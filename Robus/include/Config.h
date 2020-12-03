@@ -27,8 +27,8 @@
 //Gripper
 #define GRIPPER 0
 #define WRIST 1
-#define UP_VAL 120
-#define DOWN_VAL 180
+#define UP_VAL 100
+#define DOWN_VAL 150
 
 #define DIS 0
 #define DEG 1
@@ -38,9 +38,13 @@
 #define GET 0
 #define SET 1
 
-#define INIT 0
-#define START 1
-#define RESET 2
-#define SWEEPSTOP 3
+#define INIT 1
+#define START 2
+#define RESET 3
+#define SWEEPSTOP 4
+
+#define ANGLE 180
+#define MAX_DIS 130
+#define MIN_DIS 5
 
 #endif

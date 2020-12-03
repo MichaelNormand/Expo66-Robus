@@ -41,3 +41,12 @@ void GetSetAngle(float *angle, int action)
   if(action == GET)
     *angle = temp;
 }
+
+void GetSetSweepStatus(int *status, int action)
+{ 
+  static int sweepStatus = 0;
+  if(action == SET)
+    sweepStatus = *status;
+  if(action == GET)
+    *status = sweepStatus;
+}

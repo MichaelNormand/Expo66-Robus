@@ -1,4 +1,5 @@
 #include "Sweep.h"
+#include "Communication.h"
 
 void sweep(void)
 {
@@ -7,20 +8,22 @@ void sweep(void)
     int state;
     static struct DisDeg disDeg;
     float distance = 0;
-    static int status = INIT;
+    int status;
+    GetSetSweepStatus(&status, GET);
 
     if (status == INIT)
     {
-        disDeg.distance = 100;
+        disDeg.distance = MAX_DIS;
         disDeg.angle = 0;
         rotate[DIS] = 0;
-        rotate[DEG] = 90;
+        rotate[DEG] = ANGLE;
         rotate[DIR] = RIGHT;
         rotate[STATE] = ROTATE;
 
         GetSetMove(rotate, SET);
 
         status = START;
+        GetSetSweepStatus(&status, SET);
     }
 
     if (status == START)
@@ -29,7 +32,7 @@ void sweep(void)
         if (rotate[STATE] != STOP)
         {
             distance = sonar_get_data();
-            if (distance < 100 && distance > 5)
+            if (distance < MAX_DIS && distance > MIN_DIS)
             {
                 if (distance < disDeg.distance)
                 {
@@ -43,18 +46,22 @@ void sweep(void)
                 }
             }
         }
-
-        else status = RESET;
+        else
+        {
+            status = RESET;
+            GetSetSweepStatus(&status, SET);
+        }
     }
 
     if (status == RESET)
     {
         rotate[DIS] = 0;
-        rotate[DEG] = 90 - disDeg.angle;
+        rotate[DEG] = ANGLE - disDeg.angle;
         rotate[DIR] = LEFT;
         rotate[STATE] = ROTATE;
         GetSetMove(rotate, SET);
 
         status = SWEEPSTOP;
+        GetSetSweepStatus(&status, SET);
     }
 }
